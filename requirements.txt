@@ -1,4 +1,4 @@
-requests
-mnemonic
-eth-account
-web3
+requests==2.28.1
+mnemonic==0.19
+eth-account==0.8.0  # حاول استخدام إصدار أحدث إذا كان متوفرًا
+web3==6.1.0  # أو أي إصدار أحدث يدعم eth-abi>=4.0.0
