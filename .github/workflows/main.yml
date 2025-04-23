@@ -1,33 +1,27 @@
-name: Python CI
+name: Run Every Minute
 
 on:
-  push:
-    branches: [main]  # أو أي فرع تريد
-  pull_request:
-    branches: [main]  # أو أي فرع تريد
+  schedule:
+    - cron: '* * * * *'  # كل دقيقة
+  workflow_dispatch:  # لتشغيله يدويًا إذا أردت
 
 jobs:
-  build:
+  run-script:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'  # اختر الإصدار الذي تحتاجه
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt  # تثبيت الحزم من requirements.txt
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Install pytest
-      run: |
-        pip install pytest  # تثبيت pytest في بيئة GitHub Actions
-
-    - name: Run tests
-      run: |
-        pytest  # تشغيل اختبارات pytest
+      - name: Run Python script
+        run: |
+          python main.py
